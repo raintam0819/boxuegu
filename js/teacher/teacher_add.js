@@ -1,30 +1,56 @@
-define(['aside', 'nprogress', 'jquery', 'jqueryCookie'], function (undefined, nprogress, $, undefined) {
-	(function () {
-		console.log($.cookie('teacherInfo').split(','));
-		var teacherInfo=$.cookie('teacherInfo').split(',');
-		console.log(teacherInfo)
+define(['aside', 'nprogress', 'jquery', 'jqueryCookie', 'template', 'datepicker', 'datepickerCN', 'jqueryForm', 'header'], function (undefined, nprogress, $, undefined, template, undefined, undefined, undefined, undefined) {
 
-		//将cookie里获取的资料渲染到页面上面
-		$('#input-name').val(teacherInfo[1]);
-		$('#date').val(teacherInfo[3]);
+	var search = location.search;
+	var searchArr = search.slice(1).split('&');
+	var searchObj = {}, temp;
+	for (var i = 0; i < searchArr.length; i++) {
+		temp = searchArr[i].split('=')
+		searchObj[temp[0]] = temp[1]
+	}
+	console.log(searchObj)
+	if (searchObj.hasOwnProperty('tc_id')) {
+		teacherEdit();
+	} else {
+		teacherAdd();
+	}
 
-		//添加添加时间,点击时发送ajax请求去后台保存资料
-		$('.pull-right').on('click',function(){
-			$.ajax({
-				type:'post',
-				url:'/v6/teacher/add',
-				data:{
-					tc_name:'谭泽栋',
-					tc_pass:'123456',
-					tc_join_date:'2017-01-01',
-					tc_type:1,
-					tc_gender:0
-				},
-				success:function(data){
-					console.log(data)
-				}
-			})
+
+	// 新增老师
+	function teacherAdd() {
+		$('.teacher').html(template('teacher-add-edit', {}));
+		initDatepicker();
+		$('#teacher-add-edit-form').ajaxForm(function (data) {
+			console.log(data)
+			location.href = '/html/teacher/teacher_list.html'
 		})
-			nprogress.done();
-	})()
+	}
+
+
+	//编辑老师
+	function teacherEdit() {
+		$.get('/v6/teacher/edit', { tc_id: searchObj.tc_id }, function (data) {
+			$('.teacher').html(template('teacher-add-edit', data.result))
+			initDatepicker();
+		})
+		$(document).on('submit', '#teacher-add-edit-form', function () {
+			console.log(123)
+			console.log($(this))
+			$.post('/v6/teacher/update', $(this).serialize(), function (data) {
+				//发送完请求之后跳转回教室列表
+				location.href='/html/teacher/teacher_list.html'
+			})
+			return false;
+		})
+	}
+
+	//初始化日期插件
+	function initDatepicker() {
+		$('#date').datepicker({
+			endDate: new Date(),
+			language: 'zh-CN'
+		});
+	}
+
+	nprogress.done();
+
 });

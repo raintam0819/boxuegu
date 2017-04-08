@@ -16,59 +16,8 @@
         <div class="container-fluid">
             <!-- 头部 -->
             <?php include($_SERVER['DOCUMENT_ROOT'].'/html/common/header.html')?>
-            <div class="body teacher">
-                <!-- 面包屑 -->
-                <ol class="breadcrumb">
-                    <li><a href="javascript:;">讲师管理</a></li>
-                    <li class="active">讲师添加</li>
-                </ol>
-                <div class="teacher-add">
-                    <form action="" class="form-horizontal col-xs-offset-2">
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">姓名</label>
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" placeholder="讲师名称" id="input-name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">密码</label>
-                            <div class="col-xs-4">
-                                <input type="password" class="form-control input-sm">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">入职时间</label>
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" id="date">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">类型</label>
-                            <div class="col-xs-2">
-                                <select name="" class="form-control input-sm">
-                                    <option value="">讲师</option>
-                                    <option value="">管理员</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">性别</label>
-                            <div class="col-xs-4">
-                                <label class="radio-inline">
-                                    <input type="radio" checked> 男
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio"> 女
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-7">
-                                <a href="javascript:void(0)" class="btn btn-success btn-sm pull-right"> 添 加 </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="body teacher" >
+                <!--模板坑-->
             </div>
         </div>
     </div>
@@ -78,5 +27,63 @@
     <!--loading图标-->
     <?php include($_SERVER['DOCUMENT_ROOT'].'/html/common/loading.html')?>
 </body>
+<script type="text/tpl" id="teacher-add-edit">
+    <!-- 面包屑 -->
+    <ol class="breadcrumb">
+        <li><a href="javascript:;">讲师管理</a></li>
+        <li class="active">{{tc_id?'讲师修改':'讲师添加'}}</li>
+    </ol>
+    <div class="teacher-add">
+        <form action="{{ tc_id? '/v6/teacher/update': '/v6/teacher/add' }}" method='post' class="form-horizontal col-xs-offset-2" id="teacher-add-edit-form">
+            {{ if tc_id }}
+            <input type="hidden" name="tc_id" value="{{ tc_id }}"> 
+            {{ /if }}
+            <div class="form-group">
+                <label for="" class="col-xs-3 control-label">姓名</label>
+                <div class="col-xs-4">
+                    <input name="tc_name" type="text" class="form-control input-sm" placeholder="讲师名称" id="input-name" value="{{tc_name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-3 control-label">密码</label>
+                <div class="col-xs-4">
+                    <input name='tc_pass' type="password" class="form-control input-sm">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-3 control-label">入职时间</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control input-sm" id="date" name="tc_join_date" value="{{tc_join_date}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-3 control-label">类型</label>
+                <div class="col-xs-2">
+                    <select name="" class="form-control input-sm">
+                                    <option value="1" {{tc_type==1? 'selected':''}}>讲师</option>
+                                    <option value="0" {{tc_type==1? '':'selected'}}>管理员</option>
+                                </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-3 control-label">性别</label>
+                <div class="col-xs-4">
+                    <label class="radio-inline">
+                                    <input type="radio" value='0' name="tc_gender"  {{tc_gender==0?'checked':''}}> 男
+                                </label>
+                    <label class="radio-inline">
+                                    <input type="radio" value='1' name="tc_gender"
+                                    {{tc_gender==0?'':'checked'}}> 女
+                                </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-7">
+                    <button type="submit" href="javascript:void(0)" class="btn btn-success btn-sm pull-right"> {{tc_id?'修改':'添加'}} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
 
 </html>
