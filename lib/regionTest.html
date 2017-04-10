@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="jquery/jquery.min.js"></script>
+    <script src="jquery-region/jquery.region.js"></script>
+    <div id="region-container">
+        <select id="p">
+            <option value="" >请输入省份</option>
+        </select>
+        <select id="c">
+            <option value="" >请输入市份</option>
+        </select>
+        <select id='d'>
+            <option value="" >请输入县/区份</option>
+        </select>
+    </div>
+    <script>
+        $('#region-container').region({
+            url:'jquery-region/region.json'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-define(['bootstrap', 'jquery', 'aside', 'nprogress', 'template', 'jqueryCookie','header','jqueryForm'], function(undefined, $, undefined, nprogress, template, undefined,undefined,undefined) {
+define(['bootstrap', 'jquery', 'aside', 'nprogress', 'template', 'jqueryCookie','header','jqueryForm','common'], function(undefined, $, undefined, nprogress, template, undefined,undefined,undefined,undefined) {
     //检测form表单的提交事件,然后发送ajax请求
     $('#reset-pass').ajaxForm(function(data){
         if(data.code==200){

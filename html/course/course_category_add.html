@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>学IT - 后台管理系统</title>
     <?php include($_SERVER['DOCUMENT_ROOT'].'/html/common/style.html')?>
 </head>
+
 <body>
-    
+
     <!-- 侧边栏 -->
     <?php include($_SERVER['DOCUMENT_ROOT'].'/html/common/aside.html')?>
     <!-- 主体 -->
@@ -21,49 +23,7 @@
                     <li class="active">课程分类</li>
                 </ol>
                 <div class="category-add">
-                    <form action="" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="" class="col-xs-4 control-label">名称</label>
-                            <div class="col-xs-3">
-                                <input type="text" class="form-control input-sm" placeholder="填写分类名称">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-4 control-label">级别</label>
-                            <div class="col-xs-2">
-                                <select name="" class="form-control input-sm">
-                                    <option value="">顶级分类</option>
-                                    <option value="">前端开发</option>
-                                    <option value="">后端开发</option>
-                                    <option value="">数据库</option>
-                                    <option value="">云计算&大数据</option>
-                                    <option value="">视觉设计</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-4 control-label">排序</label>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control input-sm" value="10">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-4 control-label">是否显示</label>
-                            <div class="col-xs-3">
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" checked> 是
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox"> 否
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-8">
-                                <a href="./course_category.html" class="btn btn-success btn-sm pull-right">保存</a>
-                            </div>                          
-                        </div>
-                    </form>
+                    <!--修改和添加的form表单的坑-->
                 </div>
             </div>
         </div>
@@ -71,5 +31,51 @@
 
     <!--腳本信息-->
     <?php include($_SERVER['DOCUMENT_ROOT'].'/html/common/script.html')?>
+
+    <script type="text/tpl" id="course-category-edit-form">
+        <form action={{cg_id?'/v6/category/edit':'/v6/category/add'}} class="form-horizontal" id='category-form'>
+            <input type="hidden" name='cg_id' value={{cg_id}}>
+            <div class="form-group">
+                <label for="" class="col-xs-4 control-label">名称</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm" placeholder="填写分类名称"
+                    value='{{cg_name}}' name='cg_name'>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-4 control-label">级别</label>
+                <div class="col-xs-2">
+                    <select name="cg_pid" class="form-control input-sm">
+                        {{each top as val i}}
+                            <option value="{{val.cg_id}} {{cg_pid == val.cg_id?'selected':''}}">{{val.cg_name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-4 control-label">排序</label>
+                <div class="col-xs-1">
+                    <input type="text" class="form-control input-sm" value="{{cg_order}}" name='cg_order'>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-xs-4 control-label">是否显示</label>
+                <div class="col-xs-3">
+                    <label class="checkbox-inline">
+                                    <input type="radio" name='cg_is_hide' value='0' {{cg_is_hide=='0'?'checked':''}}> 是
+                                </label>
+                    <label class="checkbox-inline">
+                                    <input type="radio" name='cg_is_hide' value='1' {{cg_is_hide=='0'?'':'checked'}}> 否
+                                </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <button href="/html/course/course_category.html" class="btn btn-success btn-sm pull-right">保存</button>
+                </div>
+            </div>
+        </form>
+    </script>
 </body>
+
 </html>

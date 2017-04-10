@@ -7,7 +7,6 @@ define(['aside', 'nprogress', 'jquery', 'jqueryCookie', 'template', 'datepicker'
 		temp = searchArr[i].split('=')
 		searchObj[temp[0]] = temp[1]
 	}
-	console.log(searchObj)
 	if (searchObj.hasOwnProperty('tc_id')) {
 		teacherEdit();
 	} else {
@@ -47,7 +46,8 @@ define(['aside', 'nprogress', 'jquery', 'jqueryCookie', 'template', 'datepicker'
 	function initDatepicker() {
 		$('#date').datepicker({
 			endDate: new Date(),
-			language: 'zh-CN'
+			language: 'zh-CN',
+			format:'yyyy-mm-dd'
 		});
 	}
 

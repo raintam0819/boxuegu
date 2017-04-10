@@ -10,4 +10,19 @@ define(['jquery'],function($){
         }
     }
     !isLogin && (location.href='/html/home/login.html');
+
+
+    // 对外暴露一个对象
+    return {
+
+        parseSearch:function(searchName){
+            var searchArr=location.search.slice(1).split('&');
+            var searchObj={},temp;
+            for(var i=0;i<searchArr.length;i++){
+                temp=searchArr[i].split('=');
+                searchObj[temp[0]]=temp[1];
+            }
+            return searchName == null? searchObj :searchObj[searchName]
+        }
+    }
 })
